@@ -20,7 +20,7 @@ def fetch_and_save_stock_data(stock_symbol, filename="stock_data.json"):
         stock_data.reset_index(inplace=True)
         stock_data = stock_data.astype(str)  # Convert all columns to string to avoid issues with JSON serialization
         # Save the data to a JSON file
-        stock_data.to_json('apple_stock_data.json', orient='split', compression='infer')
+        stock_data.to_json(filename, orient='split', compression='infer')
 
         print(f"Stock data for {stock_symbol} saved to {filename}.")
 
@@ -29,4 +29,4 @@ def fetch_and_save_stock_data(stock_symbol, filename="stock_data.json"):
         print(f"An error occurred: {e}")
 
 # Example Usage
-fetch_and_save_stock_data("AAPL", "apple_stock_data.json")
+fetch_and_save_stock_data("AAPL", "./market_data/apple_stock_data.json")
