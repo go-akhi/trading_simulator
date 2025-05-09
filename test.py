@@ -1,23 +1,16 @@
-from telegram import Update
-from telegram.ext import Updater, CommandHandler, CallbackContext
-import getToken
+import yfinance as yf
+import pandas as pd
 
-token=getToken.get_token()
+def calculate_rsi(data, window=14):
+    delta = data['Close'].diff()
+    gain = (delta.where(delta > 0, 0)).rolling(window=window).mean()
+    loss = (-delta.where(delta < 0, 0)).rolling(window=window).mean()
+    rs = gain / loss
+    rsi = 100 - (100 / (1 + rs))
+    return rsi
 
-def bot_status(update: Update, context: CallbackContext):
-    update.message.reply_text("Bot is active")
-
-def main():
-    updater = Updater(token, use_context=True)
-    dispatcher = updater.dispatcher
-    dispatcher.add_handler(CommandHandler("bot_status",bot_status))
-
-    updater.start_polling()
-    print("🥸 Bot is here")
-    update.idle()
-
-
-if __name__ == "__main__":
-    main()
-
-
+# Example usage
+ticker = "AAPL"  # Replace with your desired stock ticker
+data = yf.download(ticker, start="2023-01-01", end="2023-12-31")
+data['RSI'] = calculate_rsi(data)
+print(data.head())

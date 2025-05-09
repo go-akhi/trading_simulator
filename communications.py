@@ -8,8 +8,8 @@ Basic example for a bot that uses inline keyboards. For an in-depth explanation,
 """
 import logging
 
-import getToken
-import calls
+import utils.getToken as getToken
+import strategies.calls as calls
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import Application, CallbackQueryHandler, CommandHandler, ContextTypes
