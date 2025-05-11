@@ -1,5 +1,5 @@
 import pandas as pd 
-import indicators.momentum as momentum
+from indicators import momentum
 import matplotlib.pyplot as plt 
 
 stock_data = pd.read_json('./market_data/apple_stock_data.json', orient='split', compression='infer')
