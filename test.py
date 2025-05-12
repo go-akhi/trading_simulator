@@ -7,11 +7,11 @@ stock_data = pd.read_json('./market_data/apple_stock_data.json', orient='split',
 stock_data.columns = stock_data.columns.map(lambda x : x[0] )
 
 
-stock_data['RSI'] = momentum.calculate_rsi(stock_data)
-stock_data['MACD Histogram'] = momentum.calculate_macd(stock_data)
-stock_data['ROC'] = momentum.calculate_roc(stock_data)
-stock_data['Stochastic Oscillator'] = momentum.calculate_stochastic_oscillator(stock_data)
-stock_data['Money Flow Index'] = momentum.calculate_money_flow_index(stock_data)
+stock_data = momentum.calculate_rsi(stock_data)
+stock_data = momentum.calculate_macd(stock_data)
+stock_data = momentum.calculate_roc(stock_data)
+stock_data = momentum.calculate_stochastic_oscillator(stock_data)
+stock_data = momentum.calculate_money_flow_index(stock_data)
 
 print(stock_data)
 

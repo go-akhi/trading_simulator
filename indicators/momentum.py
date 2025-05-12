@@ -43,9 +43,9 @@ def calculate_rsi(df, col = "Adj Close", period = 14):
 
     # Calculate relative strength and the relative strength index
     rs = avg_gain/avg_losses
-    rsi = 100 - (100 / (1 + rs))
+    df["RSI"] = 100 - (100 / (1 + rs))
 
-    return(rsi)
+    return(df)
 
 def calculate_macd(df, col = "Adj Close", fast_period = 12, slow_period = 26, signal_period = 9):
     """Captures momentum shifts and trend strength
@@ -85,9 +85,9 @@ def calculate_macd(df, col = "Adj Close", fast_period = 12, slow_period = 26, si
     signal = macd.ewm(span=signal_period, adjust=False).mean()
 
     #MACD histogram data
-    delta = macd - signal
+    df["MACD Histogram heights"] = macd - signal
 
-    return(delta)
+    return(df)
 
 def calculate_roc(df, col = "Adj Close", period = 15):
     """
@@ -108,9 +108,9 @@ def calculate_roc(df, col = "Adj Close", period = 15):
     is_column(df, col)
 
     # Calculate ROC
-    roc = (df[col] - df[col].shift(period)) * 100 / df[col].shift(period) 
+    df["ROC"] = (df[col] - df[col].shift(period)) * 100 / df[col].shift(period) 
 
-    return(roc)
+    return(df)
 
 def calculate_stochastic_oscillator(df, period = 14):
     """
@@ -137,9 +137,9 @@ def calculate_stochastic_oscillator(df, period = 14):
     k = (df["Adj Close"] - rolling_low) * 100 / (rolling_high - rolling_low)
 
     # Calculate the signal line, %D which is the 3-day simple moving average
-    d = k.rolling(window = 3).mean()
+    df["Stochastic Oscillator"] = k.rolling(window = 3).mean()
 
-    return(d)
+    return(df)
 
 def calculate_money_flow_index(df, period = 14):
     """
@@ -170,8 +170,6 @@ def calculate_money_flow_index(df, period = 14):
 
     # Calculate Money Flow Index
     money_flow_ratio = positive_mf.rolling(window = period).sum() / negative_mf.rolling(window = period).sum()
-    mfi = 100 - (100 / (1 + money_flow_ratio))
+    df["MFI"] = 100 - (100 / (1 + money_flow_ratio))
 
-    return(mfi)
-
-
+    return(df)
